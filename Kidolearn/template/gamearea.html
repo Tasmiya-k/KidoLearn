@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Game Area</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+  </head>
+
+  <body
+    style="
+      background-color: #93f2f7;
+      background-image: url(../static/BGimage.webp);
+      background-repeat: no-repeat;
+      background-size: cover;
+    "
+  >
+    <div class="d-flex justify-content-center my-4">
+      <img id="game-image" src="../static/potato 1.png" width="50%" alt="img" />
+    </div>
+
+    <!-- buttons -->
+    <div class="container text-center mt-5">
+      <div class="row">
+        <div class="col">
+          <audio
+            id="sound1"
+            src="../static/Audios/Potato.mp3"
+            preload="auto"
+          ></audio>
+          <button
+            id="option1"
+            type="button"
+            class="btn btn-secondary btn-lg mb-3 mx-5"
+            style="
+              width: 30%;
+              background-color: #d9d9d9;
+              color: black;
+              border: 2px solid black;
+            "
+          >Potato
+          </button>
+
+          <audio id="sound2" src="" preload="auto"></audio>
+          <button
+            id="option2"
+            type="button"
+            class="btn btn-secondary btn-lg mb-3 mx-5"
+            onclick=""
+            style="
+              width: 30%;
+              background-color: #d9d9d9;
+              color: black;
+              border: 2px solid black;
+            "
+          >
+            Raddish
+          </button>
+        </div>
+      </div>
+
+      <div class="row mt-5">
+        <div class="col">
+          <audio id="sound3" src="../static/Audios/Incorrect1.mp3"></audio>
+          <button
+            id="option3"
+            type="button"
+            class="btn btn-primary btn-lg mx-5"
+            style="
+              width: 30%;
+              background-color: #d9d9d9;
+              color: black;
+              border: 2px solid black;
+            "
+          >
+            Carrot
+          </button>
+
+          <audio id="sound4" src="../static/Audios/Incorrect.mp3"></audio>
+          <button
+            id="option4"
+            type="button"
+            class="btn btn-primary btn-lg mx-5"
+            style="
+              width: 30%;
+              background-color: #d9d9d9;
+              color: black;
+              border: 2px solid black;
+            "
+          >
+            Tomato
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      const gameData = [
+        {
+          imageUrl: "../static/vegetables/potato.jpg",
+          options: ["Potato", "Raddish", "Carrot", "Tomato"],
+          correct: "Potato",
+          Playaudio: "../static/Audios/Potato1.mp3",
+        },
+        {
+          imageUrl: "../static/vegetables/cauliflower.jpg",
+          options: ["Brinjal", "Onion", "Cauliflower", "Spinach"],
+          correct: "Cauliflower",
+          Playaudio: "../static/Audios/CauliFlower.mp3",
+        },
+        {
+          imageUrl: "../static/vegetables/Onion.jpg",
+          options: ["Potato", "Onion", "Radish", "Spinach"],
+          correct: "Onion",
+          Playaudio: "../static/Audios/Onion.mp3",
+        },
+        {
+          imageUrl: "../static/vegetables/bitter gourd.jpg",
+          options: ["Brinjal", "Bitter Gourd", "Cauliflower", "Carrot"],
+          correct: "Bitter Gourd",
+          Playaudio: "../static/Audios/BitterGourd.mp3",
+        },
+
+        // Add more game data here
+      ];
+
+      let currentDataIndex = 0;
+
+      const gameImage = document.getElementById("game-image");
+      const option1Button = document.getElementById("option1");
+      const option2Button = document.getElementById("option2");
+      const option3Button = document.getElementById("option3");
+      const option4Button = document.getElementById("option4");
+
+      function updateImageAndOptions() {
+        const currentData = gameData[currentDataIndex];
+        gameImage.src = currentData.imageUrl;
+        option1Button.innerHTML = currentData.options[0];
+        option2Button.innerHTML = currentData.options[1];
+        option3Button.innerHTML = currentData.options[2];
+        option4Button.innerHTML = currentData.options[3];
+      }
+
+      option1Button.addEventListener("click", function () {
+        if (option1Button.innerHTML == gameData[currentDataIndex].correct) {
+          sound1.src = gameData[currentDataIndex].Playaudio;    
+          document.getElementById("sound1").play();
+        } else {
+          alert(option1Button.innerHTML);
+          alert(gameData[currentDataIndex].correct);
+          alert(option1Button.innerHTML == gameData[currentDataIndex].correct);
+          sound1.src = "../static/Audios/Incorrect1.mp3";
+          document.getElementById("sound1").play();
+        }
+        currentDataIndex = (currentDataIndex + 1) % gameData.length;
+        setTimeout(updateImageAndOptions, 3000);
+      });
+
+      option2Button.addEventListener("click", function () {
+        if (option2Button.innerHTML == gameData[currentDataIndex].correct) {
+          sound2.src = gameData[currentDataIndex].Playaudio;
+
+          document.getElementById("sound2").play();
+        } else {
+          sound2.src = "../static/Audios/Incorrect1.mp3";
+          document.getElementById("sound2").play();
+        }
+        currentDataIndex = (currentDataIndex + 1) % gameData.length;
+        setTimeout(updateImageAndOptions, 3000);
+      });
+
+      option3Button.addEventListener("click", function () {
+        if (option3Button.innerHTML == gameData[currentDataIndex].correct) {
+          sound3.src = gameData[currentDataIndex].Playaudio;
+
+          document.getElementById("sound3").play();
+        } else {
+          sound3.src = "../static/Audios/Incorrect1.mp3";
+          document.getElementById("sound3").play();
+        }
+        currentDataIndex = (currentDataIndex + 1) % gameData.length;
+        setTimeout(updateImageAndOptions, 3000);
+      });
+
+      option4Button.addEventListener("click", function () {
+        if (option4Button.innerHTML == gameData[currentDataIndex].correct) {
+          sound4.src = gameData[currentDataIndex].Playaudio;
+
+          document.getElementById("sound4").play();
+        } else {
+          sound4.src = "../static/Audios/Incorrect1.mp3";
+          document.getElementById("sound4").play();
+        }
+        currentDataIndex = (currentDataIndex + 1) % gameData.length;
+        setTimeout(updateImageAndOptions, 3000);
+      });
+
+      setTimeout(updateImageAndOptions, 3000);
+    </script>
+  </body>
+</html>
